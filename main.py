@@ -9,7 +9,7 @@ def main():
         prog="BrandRatingAnalysis", description="Анализ рейтинга брендов"
     )
 
-    parser.add_argument("--files", nargs="+")  # "+" 1 и больше аргументов
+    parser.add_argument("--files", nargs="+")  # "+" один и больше аргументов
     parser.add_argument("--report", choices=["average-rating"])
     args = parser.parse_args()
 
