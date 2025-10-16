@@ -1,6 +1,7 @@
 import argparse
 import csv
-# import tabulate
+
+from tabulate import tabulate
 
 
 def main():
@@ -13,8 +14,8 @@ def main():
     args = parser.parse_args()
 
     if args.report == "average-rating":
-        brands_dict = average_rating(parser)
-        print(brands_dict)
+        brands_list = average_rating(parser)
+        make_table(brands_list)
 
 
 def average_rating(parser):
@@ -28,7 +29,7 @@ def parse_csv_files(list_csv: list) -> list:
     и формирует список в виде
     [["brand", rating], ["brand", rating], ...]
     """
-
+    list_csv = ["products1.csv", "products2.csv"]
     brands_dict = {}
     brands_list = []
 
@@ -51,12 +52,21 @@ def parse_csv_files(list_csv: list) -> list:
     for brand in brands_dict:
         brand_total_rating = brands_dict.get(brand)[0]
         brand_repeat_counters = brands_dict.get(brand)[1]
-        brands_dict[brand] = round(brand_total_rating / brand_repeat_counters, 2)
         brands_list.append(
             [brand, round(brand_total_rating / brand_repeat_counters, 2)]
         )
     sorted_brands_list = sorted(brands_list, key=lambda x: x[1], reverse=True)
     return sorted_brands_list
+
+
+def make_table(brands_list: list):
+    """
+    Функция пересобирает переданный отсортированный список в новый
+    с добавлением столбца нумерации
+    Результат выводит в консоль
+    """
+    numbered_list = [[i + 1] + row for i, row in enumerate(brands_list)]
+    print(tabulate(numbered_list, headers=[" ", "brand", "rating"], tablefmt="grid"))
 
 
 if __name__ == "__main__":
