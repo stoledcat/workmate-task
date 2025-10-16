@@ -22,8 +22,15 @@ def average_rating(parser):
     return parse_csv_files(list_csv)
 
 
-def parse_csv_files(list_csv: list) -> dict:
+def parse_csv_files(list_csv: list) -> list:
+    """
+    Функция рассчитывает рейтинг из полученных данных и
+    и формирует список в виде
+    [["brand", rating], ["brand", rating], ...]
+    """
+
     brands_dict = {}
+    brands_list = []
 
     # list_csv = ["products1.csv", "products2.csv"]
 
@@ -47,8 +54,11 @@ def parse_csv_files(list_csv: list) -> dict:
         brand_total_rating = brands_dict.get(brand)[0]
         brand_repeat_counters = brands_dict.get(brand)[1]
         brands_dict[brand] = round(brand_total_rating / brand_repeat_counters, 2)
-
-    return brands_dict
+        brands_list.append(
+            [brand, round(brand_total_rating / brand_repeat_counters, 2)]
+        )
+    sorted_brands_list = sorted(brands_list, key=lambda x: x)
+    return sorted_brands_list
 
 
 if __name__ == "__main__":
