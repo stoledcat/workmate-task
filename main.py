@@ -14,22 +14,21 @@ def main():
     args = parser.parse_args()
 
     if args.report == "average-rating":
-        brands_list = average_rating(parser)
+        brands_list = parse_csv_files(parser)
         make_table(brands_list)
 
 
-def average_rating(parser):
+def parse_csv_files(parser):
     list_csv = parser.parse_args().files
-    return parse_csv_files(list_csv)
+    return calculate_average_rating(list_csv)
 
 
-def parse_csv_files(list_csv: list) -> list:
+def calculate_average_rating(list_csv: list) -> list:
     """
     Функция рассчитывает рейтинг из полученных данных и
     и формирует список в виде
     [["brand", rating], ["brand", rating], ...]
     """
-    list_csv = ["products1.csv", "products2.csv"]
     brands_dict = {}
     brands_list = []
 
