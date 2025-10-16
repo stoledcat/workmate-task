@@ -32,8 +32,6 @@ def parse_csv_files(list_csv: list) -> list:
     brands_dict = {}
     brands_list = []
 
-    # list_csv = ["products1.csv", "products2.csv"]
-
     for file in list_csv:
         with open(file, newline="") as csvfile:
             filereader = csv.reader(csvfile)
@@ -57,7 +55,7 @@ def parse_csv_files(list_csv: list) -> list:
         brands_list.append(
             [brand, round(brand_total_rating / brand_repeat_counters, 2)]
         )
-    sorted_brands_list = sorted(brands_list, key=lambda x: x)
+    sorted_brands_list = sorted(brands_list, key=lambda x: x[1], reverse=True)
     return sorted_brands_list
 
 
