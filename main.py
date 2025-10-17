@@ -38,7 +38,7 @@ def main_parser(argv=None):
     return args
 
 
-def check_csv_files(list_csv):
+def check_csv_files(list_csv: list) -> list:
     for idx, file in enumerate(list_csv):
         if not file.endswith(".csv"):
             list_csv[idx] = file + ".csv"
@@ -46,7 +46,7 @@ def check_csv_files(list_csv):
     return list_csv
 
 
-def make_brands_dict(list_csv: list) -> list:
+def make_brands_dict(list_csv: list) -> dict:
     """
     Функция для дальнейшего расчета рейтинга формирует словарь в виде
     [["brand": rating, counter], ["brand": rating, counter], ...]
@@ -74,7 +74,7 @@ def make_brands_dict(list_csv: list) -> list:
     return brands_dict
 
 
-def sort_brands_list(brands_dict):
+def sort_brands_list(brands_dict: dict) -> list:
     """
     Функция формирует отсортированный список брендов
     """
