@@ -20,6 +20,11 @@ def main():
 
 def parse_csv_files(parser):
     list_csv = parser.parse_args().files
+
+    for idx, file in enumerate(list_csv):
+        if not file.endswith(".csv"):
+            list_csv[idx] = file + ".csv"
+
     return calculate_average_rating(list_csv)
 
 
