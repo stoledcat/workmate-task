@@ -1,0 +1,10 @@
+.coverage
+.env
+.vscode
+.pytest_cache
+.ruff_cache
+__pycache__
+*.csv
+*.pdf
+*.png
+*.pyc
