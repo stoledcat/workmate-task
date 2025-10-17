@@ -18,9 +18,10 @@ def main():
         make_table(brands_list)
 
 
+# def parse_csv_files():
 def parse_csv_files(parser):
     list_csv = parser.parse_args().files
-
+    # list_csv = ["products1.csv", "products2.csv"]
     for idx, file in enumerate(list_csv):
         if not file.endswith(".csv"):
             list_csv[idx] = file + ".csv"
@@ -43,6 +44,9 @@ def calculate_average_rating(list_csv: list) -> list:
             next(filereader)  # Пропустить шапку документа (name brand price rating)
 
             for row in filereader:
+                if len(row) < 4:  # Пропустить пустые строки или поврежденные строки
+                    continue
+
                 brand = row[1]
                 rating = float(row[3])
 
@@ -74,4 +78,5 @@ def make_table(brands_list: list):
 
 
 if __name__ == "__main__":
+    # parse_csv_files()
     main()
