@@ -4,15 +4,16 @@ import csv
 from tabulate import tabulate
 
 
-def main(argv=None):
+def main_parser(argv=None):
+    # argv используется для передачи аргументов в виде списка строк
     parser = argparse.ArgumentParser(
         prog="BrandRatingAnalysis", description="Анализ рейтинга брендов"
     )
 
     parser.add_argument("--files", nargs="+")  # "+" один и больше аргументов
     parser.add_argument("--report", choices=["average-rating"])
-    args = parser.parse_args()
-    list_csv = parser.parse_args().files
+    args = parser.parse_args(argv)
+    list_csv = parser.parse_args(argv).files
 
     if args.report == "average-rating":
         formatted_list_csv = check_csv_files(list_csv)
@@ -23,8 +24,6 @@ def main(argv=None):
 
 
 def check_csv_files(list_csv):
-    # def check_csv_files():  # FIXME не забыть удалить
-    # list_csv = ["products1.csv", "products2.csv"] # FIXME не забыть удалить
     for idx, file in enumerate(list_csv):
         if not file.endswith(".csv"):
             list_csv[idx] = file + ".csv"
@@ -88,5 +87,4 @@ def make_table(brands_list: list):
 
 
 if __name__ == "__main__":
-    main()
-    # check_csv_files() # FIXME не забыть удалить
+    main_parser()
