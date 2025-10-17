@@ -24,7 +24,7 @@
 
 ---
 
-**Команды для запуска (мозможно указание пути до файла)**
+**Команды для запуска (возможно указание пути до файла)**
 
 `python main.py --files products1.csv products2.csv --report average-rating`
 
