@@ -19,7 +19,7 @@ def main(argv=None):
         brands_dict = make_brands_dict(formatted_list_csv)
         brands_list = sort_brands_list(brands_dict)
         make_table(brands_list)
-        return args
+    return args
 
 
 def check_csv_files(list_csv):
