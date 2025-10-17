@@ -1,5 +1,6 @@
 import argparse
 import csv
+import os
 
 from tabulate import tabulate
 
@@ -12,8 +13,18 @@ def main_parser(argv=None):
 
     parser.add_argument("--files", nargs="+")  # "+" один и больше аргументов
     parser.add_argument("--report", choices=["average-rating"])
+    parser.add_argument("--dir", type=str)
     args = parser.parse_args(argv)
-    list_csv = parser.parse_args(argv).files
+
+    if args.dir:
+        list_csv = []
+        directory = args.dir
+        if os.path.isdir(directory):
+            for filename in os.listdir(directory):
+                if filename.endswith(".csv"):
+                    list_csv.append(filename)
+    else:
+        list_csv = parser.parse_args(argv).files
 
     if args.report == "average-rating":
         formatted_list_csv = check_csv_files(list_csv)
