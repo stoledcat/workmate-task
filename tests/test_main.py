@@ -1,4 +1,5 @@
 import main
+import pytest
 
 
 def test_main_parser():
@@ -26,3 +27,17 @@ def test_one_brand():
     brands_dict = {"apple": [18.200000000000003, 4]}
     sorted_brands_list = main.sort_brands_list(brands_dict)
     assert sorted_brands_list == [["apple", 4.55]]
+
+
+def test_read_from_directory():
+    parser = main.main_parser(["--dir", "files", "--report", "average-rating"])
+    assert parser.report == "average-rating"
+
+
+def test_wrong_name_directory():
+    argv = ["--dir", "filesss", "--report", "average-rating"]
+
+    with pytest.raises(SystemExit) as exit_info:
+        main.main_parser(argv)
+
+    assert exit_info.value.code == "\nУказано неверное имя каталога\n"
