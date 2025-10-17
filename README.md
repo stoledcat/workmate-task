@@ -1,4 +1,4 @@
-**Скрипт читает файлы с данными о рейтингах товаров и формирует отчеты.**
+## **Скрипт для формирования таблицы с рейтингом брендов**
 
 **Небольшие особенности работы:**
 
@@ -40,6 +40,12 @@
 
 ---
 
+**Получение данных из директории**
+
+<img width="736" height="211" alt="brands_rating2" src="https://github.com/user-attachments/assets/3d225362-27f7-4e37-937a-7a55a489527f" />
+
+---
+
 **Покрытие тестами**
 
-<img width="706" height="317" alt="test_coverage" src="https://github.com/user-attachments/assets/1abd479c-2441-4eb7-9521-69df882fbd1d" />
+<img width="699" height="296" alt="test_coverage" src="https://github.com/user-attachments/assets/4c5828a6-bd10-43ee-b98d-5dd41865fa36" />
