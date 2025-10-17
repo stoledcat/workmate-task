@@ -4,7 +4,7 @@ import csv
 from tabulate import tabulate
 
 
-def main():
+def main(argv=None):
     parser = argparse.ArgumentParser(
         prog="BrandRatingAnalysis", description="Анализ рейтинга брендов"
     )
@@ -12,31 +12,32 @@ def main():
     parser.add_argument("--files", nargs="+")  # "+" один и больше аргументов
     parser.add_argument("--report", choices=["average-rating"])
     args = parser.parse_args()
+    list_csv = parser.parse_args().files
 
     if args.report == "average-rating":
-        brands_list = parse_csv_files(parser)
+        formatted_list_csv = check_csv_files(list_csv)
+        brands_dict = make_brands_dict(formatted_list_csv)
+        brands_list = sort_brands_list(brands_dict)
         make_table(brands_list)
+        return args
 
 
-# def parse_csv_files():
-def parse_csv_files(parser):
-    list_csv = parser.parse_args().files
-    # list_csv = ["products1.csv", "products2.csv"]
+def check_csv_files(list_csv):
+    # def check_csv_files():  # FIXME не забыть удалить
+    # list_csv = ["products1.csv", "products2.csv"] # FIXME не забыть удалить
     for idx, file in enumerate(list_csv):
         if not file.endswith(".csv"):
             list_csv[idx] = file + ".csv"
 
-    return calculate_average_rating(list_csv)
+    return list_csv
 
 
-def calculate_average_rating(list_csv: list) -> list:
+def make_brands_dict(list_csv: list) -> list:
     """
-    Функция рассчитывает рейтинг из полученных данных и
-    и формирует список в виде
-    [["brand", rating], ["brand", rating], ...]
+    Функция для дальнейшего расчета рейтинга формирует словарь в виде
+    [["brand": rating, counter], ["brand": rating, counter], ...]
     """
     brands_dict = {}
-    brands_list = []
 
     for file in list_csv:
         with open(file, newline="") as csvfile:
@@ -44,7 +45,7 @@ def calculate_average_rating(list_csv: list) -> list:
             next(filereader)  # Пропустить шапку документа (name brand price rating)
 
             for row in filereader:
-                if len(row) < 4:  # Пропустить пустые строки или поврежденные строки
+                if len(row) < 4:  # Пропустить пустые или поврежденные строки
                     continue
 
                 brand = row[1]
@@ -56,6 +57,14 @@ def calculate_average_rating(list_csv: list) -> list:
                 else:
                     # Записать новый ключ (бренд: рейтинг, счётчик)
                     brands_dict[brand] = [rating, 1]
+    return brands_dict
+
+
+def sort_brands_list(brands_dict):
+    """
+    Функция формирует отсортированный список брендов
+    """
+    brands_list = []
 
     for brand in brands_dict:
         brand_total_rating = brands_dict.get(brand)[0]
@@ -63,6 +72,7 @@ def calculate_average_rating(list_csv: list) -> list:
         brands_list.append(
             [brand, round(brand_total_rating / brand_repeat_counters, 2)]
         )
+
     sorted_brands_list = sorted(brands_list, key=lambda x: x[1], reverse=True)
     return sorted_brands_list
 
@@ -71,12 +81,12 @@ def make_table(brands_list: list):
     """
     Функция пересобирает переданный отсортированный список в новый
     с добавлением столбца нумерации
-    Результат выводит в консоль
+    Результат в виде таблицы выводит в консоль
     """
     numbered_list = [[i + 1] + row for i, row in enumerate(brands_list)]
     print(tabulate(numbered_list, headers=[" ", "brand", "rating"], tablefmt="grid"))
 
 
 if __name__ == "__main__":
-    # parse_csv_files()
     main()
+    # check_csv_files() # FIXME не забыть удалить
