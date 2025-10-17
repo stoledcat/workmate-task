@@ -6,6 +6,8 @@
 - автоматическая подстановка расширения файла (.csv) на случай, если пользователь не указал его
 - пустые или поврежденные строки будут проигнорированы, программа продолжит выполнение
 
+---
+
 **Установка зависимостей:**
 
 `pip install -r requirements.txt`
@@ -25,11 +27,15 @@
 
 `python main.py --files .\files\products1.csv products2.csv --report average-rating`
 
+---
+
 **Примеры запуска**
 
 <img width="738" height="209" alt="brands_rating" src="https://github.com/user-attachments/assets/48134588-43a5-4756-be84-edc9b8531a0e" />
 
 <img width="743" height="208" alt="brands_rating1" src="https://github.com/user-attachments/assets/3cc86c62-0652-407c-8fea-1e82dd9d8689" />
+
+---
 
 **Покрытие тестами**
 
