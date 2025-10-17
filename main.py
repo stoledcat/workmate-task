@@ -1,6 +1,7 @@
 import argparse
 import csv
 import os
+import sys
 
 from tabulate import tabulate
 
@@ -23,6 +24,9 @@ def main_parser(argv=None):
             for filename in os.listdir(directory):
                 if filename.endswith(".csv"):
                     list_csv.append(filename)
+        else:
+            sys.exit("\nУказано неверное имя каталога\n")
+
     else:
         list_csv = parser.parse_args(argv).files
 
