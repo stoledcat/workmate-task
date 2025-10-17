@@ -21,3 +21,8 @@ def test_sort_brands_list():
     for i in range(len(sorted_brands_list) - 1):
         assert sorted_brands_list[i][1] > sorted_brands_list[i + 1][1]
 
+
+def test_one_brand():
+    brands_dict = {"apple": [18.200000000000003, 4]}
+    sorted_brands_list = main.sort_brands_list(brands_dict)
+    assert sorted_brands_list == [["apple", 4.55]]
