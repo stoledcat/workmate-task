@@ -30,11 +30,11 @@
 
 **Примеры команд для запуска**
 
-`python main.py --files products1.csv products2.csv --report average-rating`
+- `python main.py --files products1.csv products2.csv --report average-rating`
 
-`python main.py --files .\files\products1.csv products2.csv --report average-rating`
+- `python main.py --files .\files\products1.csv products2.csv --report average-rating`
 
-`python main.py --dir files --report average-rating`
+- `python main.py --dir files --report average-rating`
 
 ---
 
