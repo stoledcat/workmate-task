@@ -1,105 +1,34 @@
 import argparse
-import csv
 import os
 import sys
+from parser import Parser
 
-from tabulate import tabulate
 
-
-def main_parser(argv=None):
-    # argv используется для передачи аргументов в виде списка строк
-    parser = argparse.ArgumentParser(
-        prog="BrandRatingAnalysis", description="Анализ рейтинга брендов"
-    )
-
-    parser.add_argument("--files", nargs="+")  # "+" один и больше аргументов
+def main(argv=None):
+    parser = argparse.ArgumentParser(prog="BrandRatingAnalysis", description="Brand rating processing")
+    parser.add_argument("--files", nargs="+")
     parser.add_argument("--report", choices=["average-rating"])
     parser.add_argument("--dir", type=str)
     args = parser.parse_args(argv)
 
+    list_csv = []
     if args.dir:
-        list_csv = []
-        directory = args.dir
-        if os.path.isdir(directory):
-            for filename in os.listdir(directory):
+        if os.path.isdir(args.dir):
+            for filename in os.listdir(args.dir):
                 if filename.endswith(".csv"):
-                    list_csv.append(filename)
+                    list_csv.append(os.path.join(args.dir, filename))
         else:
-            sys.exit("\nУказано неверное имя каталога\n")
-
+            sys.exit("Directory is not valid")
     else:
-        list_csv = parser.parse_args(argv).files
+        list_csv = args.files
 
     if args.report == "average-rating":
-        formatted_list_csv = check_csv_files(list_csv)
-        brands_dict = make_brands_dict(formatted_list_csv)
-        brands_list = sort_brands_list(brands_dict)
-        make_table(brands_list)
-    return args
-
-
-def check_csv_files(list_csv: list) -> list:
-    for idx, file in enumerate(list_csv):
-        if not file.endswith(".csv"):
-            list_csv[idx] = file + ".csv"
-
-    return list_csv
-
-
-def make_brands_dict(list_csv: list) -> dict:
-    """
-    Функция для дальнейшего расчета рейтинга формирует словарь в виде
-    [["brand": rating, counter], ["brand": rating, counter], ...]
-    """
-    brands_dict = {}
-
-    for file in list_csv:
-        with open(file, newline="") as csvfile:
-            filereader = csv.reader(csvfile)
-            next(filereader)  # Пропустить шапку документа (name brand price rating)
-
-            for row in filereader:
-                if len(row) < 4:  # Пропустить пустые или поврежденные строки
-                    continue
-
-                brand = row[1]
-                rating = float(row[3])
-
-                if brand in brands_dict:
-                    brands_dict[brand][0] += rating
-                    brands_dict[brand][1] += 1
-                else:
-                    # Записать новый ключ (бренд: рейтинг, счётчик)
-                    brands_dict[brand] = [rating, 1]
-    return brands_dict
-
-
-def sort_brands_list(brands_dict: dict) -> list:
-    """
-    Функция формирует отсортированный список брендов
-    """
-    brands_list = []
-
-    for brand in brands_dict:
-        brand_total_rating = brands_dict.get(brand)[0]
-        brand_repeat_counters = brands_dict.get(brand)[1]
-        brands_list.append(
-            [brand, round(brand_total_rating / brand_repeat_counters, 2)]
-        )
-
-    sorted_brands_list = sorted(brands_list, key=lambda x: x[1], reverse=True)
-    return sorted_brands_list
-
-
-def make_table(brands_list: list):
-    """
-    Функция пересобирает переданный отсортированный список в новый
-    с добавлением столбца нумерации
-    Результат в виде таблицы выводит в консоль
-    """
-    numbered_list = [[i + 1] + row for i, row in enumerate(brands_list)]
-    print(tabulate(numbered_list, headers=[" ", "brand", "rating"], tablefmt="grid"))
+        p = Parser()
+        formatted_list_csv = p.check_csv_files(list_csv)
+        brands_dict = p.make_brands_dict(formatted_list_csv)
+        brands_list = p.sort_brands_list(brands_dict)
+        p.make_table(brands_list)
 
 
 if __name__ == "__main__":
-    main_parser()
+    main()
