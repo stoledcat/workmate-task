@@ -7,18 +7,18 @@ class Parser:
     def __init__(self):
         pass
 
-    def check_csv_files(self, listcsv):
+    def check_csv_files(self, list_csv):
         list_csv_checked = []
-        for idx, file in enumerate(listcsv):
+        for idx, file in enumerate(list_csv):
             if not file.endswith('.csv'):
                 list_csv_checked.append(f"{idx} {file} .csv")
-        return list_csv_checked or listcsv
+        return list_csv_checked or list_csv
 
-    def make_brands_dict(self, listcsv):
+    def make_brands_dict(self, list_csv):
         brands_dict = {}
-        for file in listcsv:
-            with open(file, newline='') as csvfile:
-                filereader = csv.reader(csvfile)
+        for file in list_csv:
+            with open(file, newline='') as csv_file:
+                filereader = csv.reader(csv_file)
                 next(filereader)
                 for row in filereader:
                     if len(row) < 4:
@@ -35,9 +35,9 @@ class Parser:
     def sort_brands_list(self, brands_dict):
         brands_list = []
         for brand in brands_dict:
-            totalrating = brands_dict[brand][0]
+            total_rating = brands_dict[brand][0]
             count = brands_dict[brand][1]
-            brands_list.append((brand, round(totalrating / count, 2)))
+            brands_list.append((brand, round(total_rating / count, 2)))
         sorted_brands_list = sorted(brands_list, key=lambda x: x[1], reverse=True)
         return sorted_brands_list
 
