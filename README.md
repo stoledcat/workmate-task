@@ -54,4 +54,4 @@
 
 **Покрытие тестами**
 
-<img width="699" height="296" alt="test_coverage" src="https://github.com/user-attachments/assets/4c5828a6-bd10-43ee-b98d-5dd41865fa36" />
+<img width="683" height="299" alt="image" src="https://github.com/user-attachments/assets/42d90ae4-e757-463b-bcad-e9f9fa25a67f" />
